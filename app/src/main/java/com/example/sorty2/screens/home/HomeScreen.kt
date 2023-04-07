@@ -1,6 +1,5 @@
-package com.example.sorty2
+package com.example.sorty2.screens.home
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +14,9 @@ import com.example.sorty2.ui.theme.Sorty2Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+//    navController: NavHostController,
+) {
     Sorty2Theme {
         // A surface container using the 'background' color from the theme
         Surface(
@@ -33,11 +34,11 @@ fun HomeScreen() {
                     }
                 },
                 topBar = {
-                    SmallTopAppBar(
+                    TopAppBar(
                         title = {
                             Text(text = "Material 3")
                         },
-                        colors = TopAppBarDefaults.smallTopAppBarColors(
+                        colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant,
                             titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -56,7 +57,6 @@ fun HomeScreen() {
             }
         }
     }
-
 }
 
 @Preview(

@@ -1,4 +1,4 @@
-package com.example.sorty2
+package com.example.sorty2.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sorty2.R
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 
@@ -87,4 +89,17 @@ fun ImageCard(
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(
+    showBackground = true
+)
+@Composable
+fun ImageCardPreview() {
+    ImageCard(
+        title = "Bacon ipsum",
+        description = "Bacon ipsum dolor amet pork shankle beef andouille ball tip. Meatball corned beef swine, strip steak bacon jerky doner tongue biltong pork loin drumstick sausage hamburger burgdoggen.",
+        modifier = Modifier.padding(16.dp)
+    )
 }
