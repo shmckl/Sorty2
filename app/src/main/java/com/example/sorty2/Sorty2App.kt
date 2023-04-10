@@ -20,10 +20,10 @@ fun Sorty2App() {
             Screen.Tasks
         )
         val icons = listOf(
-            vectorDrawable(R.drawable.baseline_home_24),
-            vectorDrawable(R.drawable.baseline_checklist_24),
-            vectorDrawable(R.drawable.baseline_currency_pound_24),
-            vectorDrawable(R.drawable.baseline_add_task_24),
+            vectorDrawable(R.drawable.home_icon),
+            vectorDrawable(R.drawable.lists_icon),
+            vectorDrawable(R.drawable.expenses_icon),
+            vectorDrawable(R.drawable.tasks_icon),
         )
         Scaffold(
             bottomBar = {
