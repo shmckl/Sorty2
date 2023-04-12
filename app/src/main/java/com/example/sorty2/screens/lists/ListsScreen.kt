@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ListsScreen() {
-    val lists = remember { mutableStateListOf("List 1", "List 2", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3") }
+    val lists = remember { mutableStateListOf("Shopping", "List 2", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3", "List 3") }
     var selectedItem by remember { mutableStateOf(0) }
     val itemList = remember { mutableStateListOf("Item 1", "Item 2", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3", "Item 3") }
 

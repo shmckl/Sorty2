@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
 import androidx.core.view.ViewCompat.getWindowInsetsController
 
 private val DarkColorPalette = darkColorScheme(
@@ -90,7 +89,7 @@ fun Sorty2Theme(
     if (!view.isInEditMode) {
         SideEffect {
             (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
 

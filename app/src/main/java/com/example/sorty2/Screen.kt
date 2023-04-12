@@ -13,9 +13,24 @@ package com.example.sorty2
 //    object Tasks : Screen("Tasks", Icons.Filled.CheckCircle)
 //}
 
-sealed class Screen(val title: String) {
-    object Home : Screen("Home")
-    object Lists : Screen("Lists")
-    object Expenses : Screen("Expenses")
-    object Tasks : Screen("Tasks")
+sealed class Screen(val route: Route) {
+    object Home : Screen(Route.Home)
+    object Lists : Screen(Route.Lists)
+    object Expenses : Screen(Route.Expenses)
+    object Tasks : Screen(Route.Tasks)
+}
+
+sealed class Route(val routeString: String) {
+    object Home : Route("home")
+    object Lists : Route("lists")
+    object Tasks : Route("tasks")
+    object Expenses : Route("expenses")
+    object Settings : Route("settings")
+    object SignIn : Route("sing_in")
+    object SignUp : Route("sign_up")
+    object Login : Route("login")
+
+    override fun toString(): String {
+        return routeString
+    }
 }

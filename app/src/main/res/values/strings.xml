@@ -1,7 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Sorty2</string>
     <string name="home">Home</string>
     <string name="expenses">Expenses</string>
     <string name="lists">Lists</string>
     <string name="tasks">Tasks</string>
+    <string name="web_client_id" tools:ignore="TypographyDashes">616957729052-9gpft318h3kut31hksl7q4pimbv4arte.apps.googleusercontent.com</string>
+    <string name="sign_in_successful">Sign in successful</string>
+    <string name="signed_out">Signed out</string>
+
 </resources>
