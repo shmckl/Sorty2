@@ -2,6 +2,7 @@ package com.example.sorty2.screens.sign_in
 
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,7 +18,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SignInScreen(
     state: SignInState,
-    onSignInClick: () -> Unit
+    onSignInClick: () -> Unit,
+    onFinish: () -> Unit
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError) {
@@ -29,6 +31,7 @@ fun SignInScreen(
             ).show()
         }
     }
+    BackHandler { onFinish() }
 
     Box(
         modifier = Modifier

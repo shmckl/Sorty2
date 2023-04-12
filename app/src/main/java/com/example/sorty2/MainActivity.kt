@@ -18,9 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,6 +47,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,37 +60,51 @@ class MainActivity : ComponentActivity() {
                     vectorDrawable(R.drawable.expenses_icon),
                     vectorDrawable(R.drawable.tasks_icon),
                 )
-//                val navBackStackEntry by navController.currentBackStackEntryAsState()
-//                val currentDestination = navBackStackEntry?.destination
-//                val currentScreenIsNavItem = screenIsNavItem(currentDestination?.route)
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+                val currentScreenIsNavItem = screenIsNavItem(currentDestination?.route)
                 Scaffold(
-//                    topBar = {
-//                        Surface(tonalElevation = 1.dp) {
-//                            TopAppBar(
-//                                title = { Text("\uD83D\uDD25 FireNews") },
-//                                navigationIcon = {
-//                                    if (!currentScreenIsNavItem) {
-//                                        IconButton(onClick = {
-//                                            navController.popBackStack()
-//                                        }) {
-//                                            Icon(Icons.Filled.ArrowBack, contentDescription = "go back")
-//                                        }
-//                                    }
-//                                },
-////                    actions = {
-////                        if (currentDestination?.route == Route.ArticleList.routeString) {
-////                            IconButton(onClick = {
-////                                articleViewModel.refreshPosts()
-////                            }) {
-////                                Icon(Icons.Filled.Refresh, contentDescription = stringResource(R.string.refresh))
-////                            }
-////                        }
-////                    }
-//                            )
-//                        }
-//                    },
+                    topBar = {
+                        if (currentDestination?.route != Route.SignIn.routeString) {
+                            Surface {
+                                TopAppBar(
+                                    title = {
+                                        if (currentDestination != null) {
+                                            Text(currentDestination.route.toString())
+                                        }
+                                    },
+                                    navigationIcon = {
+                                        if (!currentScreenIsNavItem) {
+                                            IconButton(onClick = {
+                                                navController.popBackStack()
+                                            }) {
+                                                Icon(
+                                                    Icons.Filled.ArrowBack,
+                                                    contentDescription = "go back"
+                                                )
+                                            }
+                                        }
+                                    },
+                                    actions = {
+                                        if (currentDestination?.route == Route.Home.routeString) {
+                                            IconButton(onClick = {
+                                                navController.navigate(Screen.Settings.route.routeString)
+                                            }) {
+                                                Icon(
+                                                    imageVector = Icons.Default.Settings,
+                                                    contentDescription = null,
+                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                            }
+                                        }
+                                    }
+                                )
+                            }
+                        }
+
+                    },
                     bottomBar = {
-                        if (navController.currentBackStackEntry?.destination?.route != "sign_in") {
+                        if (currentDestination?.route != Route.SignIn.routeString) {
                             // Define the bottom navigation bar
                             NavigationBar {
                                 navItems.forEachIndexed { index, screen ->
@@ -127,10 +140,14 @@ class MainActivity : ComponentActivity() {
                     // Define the NavHost
                     NavHost(
                         navController = navController,
-                        startDestination = Route.SignIn.routeString,
+                        startDestination = Screen.SignIn.route.routeString,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Route.Home.routeString) { HomeScreen(navController) }
+                        composable(Route.Home.routeString) {
+                            HomeScreen(
+                                navController,
+                                onFinish = { finish() })
+                        }
                         composable(Route.Lists.routeString) { ListsScreen() }
                         composable(Route.Expenses.routeString) { ExpensesScreen() }
                         composable(Route.Tasks.routeString) { TasksScreen() }
@@ -141,7 +158,7 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate(Route.Home.routeString)
+                                    navController.navigate(Screen.Home.route.routeString)
                                 }
                             }
 
@@ -167,7 +184,7 @@ class MainActivity : ComponentActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    navController.navigate(Route.Home.routeString)
+                                    navController.navigate(Screen.Home.route.routeString)
                                     viewModel.resetState()
                                 }
                             }
@@ -183,7 +200,8 @@ class MainActivity : ComponentActivity() {
                                             ).build()
                                         )
                                     }
-                                }
+                                },
+                                onFinish = { finish() }
                             )
                         }
                         composable(Route.Settings.routeString) {
@@ -197,8 +215,7 @@ class MainActivity : ComponentActivity() {
                                             getString(R.string.signed_out),
                                             Toast.LENGTH_LONG
                                         ).show()
-
-                                        navController.popBackStack()
+                                        navController.navigate(Screen.SignIn.route.routeString)
                                     }
                                 }
                             )
@@ -210,11 +227,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//private fun screenIsNavItem(route: String?): Boolean {
-//    if (route == null) return false
-//
-//    return navItems.find { it.route.toString() == route } != null
-//}
+private fun screenIsNavItem(route: String?): Boolean {
+    if (route == null) return false
+
+    return navItems.find { it.route.toString() == route } != null
+}
 
 @Composable
 fun vectorDrawable(@DrawableRes id: Int): ImageVector = ImageVector.vectorResource(id)
