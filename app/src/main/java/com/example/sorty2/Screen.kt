@@ -1,31 +1,22 @@
 package com.example.sorty2
-//import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.filled.CheckCircle
-//import androidx.compose.material.icons.filled.Home
-//import androidx.compose.material.icons.filled.List
-//import androidx.compose.material.icons.filled.ShoppingCart
-//import androidx.compose.ui.graphics.vector.ImageVector
-
-//sealed class Screen(val title: String, val icon: ImageVector) {
-//    object Home : Screen("Home", Icons.Filled.Home)
-//    object Lists : Screen("Lists", Icons.Filled.List)
-//    object Expenses : Screen("Expenses", Icons.Filled.ShoppingCart)
-//    object Tasks : Screen("Tasks", Icons.Filled.CheckCircle)
-//}
 
 sealed class Screen(val route: Route) {
     object Home : Screen(Route.Home)
     object Lists : Screen(Route.Lists)
     object Expenses : Screen(Route.Expenses)
     object Tasks : Screen(Route.Tasks)
+    object Settings : Screen(Route.Settings)
+    object SignIn : Screen(Route.SignIn)
+    object SignUp : Screen(Route.SignUp)
+    object Login : Screen(Route.Login)
 }
 
 sealed class Route(val routeString: String) {
-    object Home : Route("home")
-    object Lists : Route("lists")
-    object Tasks : Route("tasks")
-    object Expenses : Route("expenses")
-    object Settings : Route("settings")
+    object Home : Route("Home")
+    object Lists : Route("Lists")
+    object Tasks : Route("Tasks")
+    object Expenses : Route("Expenses")
+    object Settings : Route("Settings")
     object SignIn : Route("sing_in")
     object SignUp : Route("sign_up")
     object Login : Route("login")
@@ -34,3 +25,10 @@ sealed class Route(val routeString: String) {
         return routeString
     }
 }
+
+val navItems = listOf(
+    Screen.Home,
+    Screen.Lists,
+    Screen.Expenses,
+    Screen.Tasks
+)

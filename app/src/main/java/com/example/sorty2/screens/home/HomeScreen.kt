@@ -1,11 +1,11 @@
 package com.example.sorty2.screens.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,7 +16,9 @@ import androidx.navigation.NavHostController
 @Composable
 fun HomeScreen(
     navController: NavHostController,
+    onFinish: () -> Unit
 ) {
+    BackHandler { onFinish() }
     // A surface container using the 'background' color from the theme
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -32,28 +34,6 @@ fun HomeScreen(
                     )
                 }
             },
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = "Home")
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        titleContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ),
-                    actions = {
-                        IconButton(onClick = {
-                            navController.navigate("settings")
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                )
-            }
         ) { values ->
             LazyColumn(contentPadding = values) {
                 items(20) {
