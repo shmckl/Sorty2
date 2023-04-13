@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -66,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         if (currentDestination?.route != Route.SignIn.routeString) {
-                            Surface {
+                            Surface(tonalElevation = 4.dp) {
                                 TopAppBar(
                                     title = {
                                         if (currentDestination != null) {
@@ -80,7 +81,7 @@ class MainActivity : ComponentActivity() {
                                             }) {
                                                 Icon(
                                                     Icons.Filled.ArrowBack,
-                                                    contentDescription = "go back"
+                                                    contentDescription = "back"
                                                 )
                                             }
                                         }
@@ -91,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                                 navController.navigate(Screen.Settings.route.routeString)
                                             }) {
                                                 Icon(
-                                                    imageVector = Icons.Default.Settings,
+                                                    imageVector = Icons.Default.AccountCircle,
                                                     contentDescription = null,
                                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                                 )
