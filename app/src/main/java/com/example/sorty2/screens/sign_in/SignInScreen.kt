@@ -1,6 +1,5 @@
 package com.example.sorty2.screens.sign_in
 
-
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
@@ -32,7 +31,6 @@ fun SignInScreen(
         }
     }
     BackHandler { onFinish() }
-
     Box(
         modifier = Modifier
             .fillMaxSize()

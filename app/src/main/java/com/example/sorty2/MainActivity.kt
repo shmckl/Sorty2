@@ -10,7 +10,6 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,6 +37,7 @@ import com.example.sorty2.ui.theme.Sorty2Theme
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 
+//@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val googleAuthUiClient by lazy {
@@ -48,7 +47,6 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,47 +61,7 @@ class MainActivity : ComponentActivity() {
                 )
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
-                val currentScreenIsNavItem = screenIsNavItem(currentDestination?.route)
                 Scaffold(
-                    topBar = {
-                        if (currentDestination?.route != Route.SignIn.routeString) {
-                            Surface(tonalElevation = 4.dp) {
-                                TopAppBar(
-                                    title = {
-                                        if (currentDestination != null) {
-                                            Text(currentDestination.route.toString())
-                                        }
-                                    },
-                                    navigationIcon = {
-                                        if (!currentScreenIsNavItem) {
-                                            IconButton(onClick = {
-                                                navController.popBackStack()
-                                            }) {
-                                                Icon(
-                                                    Icons.Filled.ArrowBack,
-                                                    contentDescription = "back"
-                                                )
-                                            }
-                                        }
-                                    },
-                                    actions = {
-                                        if (currentDestination?.route == Route.Home.routeString) {
-                                            IconButton(onClick = {
-                                                navController.navigate(Screen.Settings.route.routeString)
-                                            }) {
-                                                Icon(
-                                                    imageVector = Icons.Default.AccountCircle,
-                                                    contentDescription = null,
-                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                                )
-                                            }
-                                        }
-                                    }
-                                )
-                            }
-                        }
-
-                    },
                     bottomBar = {
                         if (currentDestination?.route != Route.SignIn.routeString) {
                             // Define the bottom navigation bar
@@ -149,9 +107,13 @@ class MainActivity : ComponentActivity() {
                                 navController,
                                 onFinish = { finish() })
                         }
-                        composable(Route.Lists.routeString) { ListsScreen() }
-                        composable(Route.Expenses.routeString) { ExpensesScreen() }
-                        composable(Route.Tasks.routeString) { TasksScreen() }
+                        composable(Route.Lists.routeString) {
+                            ListsScreen(
+                                navController
+                            )
+                        }
+                        composable(Route.Expenses.routeString) { ExpensesScreen(navController) }
+                        composable(Route.Tasks.routeString) { TasksScreen(navController) }
 
                         composable(Route.SignIn.routeString) {
                             val viewModel = viewModel<SignInViewModel>()
@@ -189,7 +151,6 @@ class MainActivity : ComponentActivity() {
                                     viewModel.resetState()
                                 }
                             }
-
                             SignInScreen(
                                 state = state,
                                 onSignInClick = {
@@ -218,7 +179,8 @@ class MainActivity : ComponentActivity() {
                                         ).show()
                                         navController.navigate(Screen.SignIn.route.routeString)
                                     }
-                                }
+                                },
+                                navController = navController
                             )
                         }
                     }
@@ -226,12 +188,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-private fun screenIsNavItem(route: String?): Boolean {
-    if (route == null) return false
-
-    return navItems.find { it.route.toString() == route } != null
 }
 
 @Composable

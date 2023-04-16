@@ -15,10 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.sorty2.screens.MyTopBar
 
 @Composable
-fun ListsScreen() {
+fun ListsScreen(
+    navController: NavHostController,
+) {
     val lists = remember {
         mutableStateListOf(
             "Shopping",
@@ -26,29 +30,6 @@ fun ListsScreen() {
             "List 3",
             "List 3",
             "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3",
-            "List 3"
         )
     }
     var selectedItem by remember { mutableStateOf(0) }
@@ -67,19 +48,20 @@ fun ListsScreen() {
             "Item 3",
             "Item 3",
             "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
         )
     }
-
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Scaffold(
+            topBar = {
+                MyTopBar(
+                    screen = "Lists",
+                    isNavItem = true,
+                    navController = navController,
+                )
+            },
             floatingActionButton = {
                 FloatingActionButton(onClick = {}) {
                     Icon(
@@ -90,7 +72,11 @@ fun ListsScreen() {
                 }
             },
         ) { values ->
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(values)
+            ) {
                 LazyRow(
                     modifier = Modifier
                         .padding(top = 8.dp)
@@ -114,7 +100,6 @@ fun ListsScreen() {
             }
         }
     }
-
 }
 
 @Composable
@@ -150,9 +135,11 @@ fun ListContent(
     onModify: (Int, String) -> Unit,
     onToggle: (Int, Boolean) -> Unit
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
         LazyColumn {
             itemsIndexed(itemList) { index, item ->
                 ListItem(
@@ -182,7 +169,6 @@ fun ListContent(
     }
 }
 
-
 @Composable
 fun ListItem(
     item: String,
@@ -190,9 +176,11 @@ fun ListItem(
     onModify: (String) -> Unit,
     onToggle: (Boolean) -> Unit
 ) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(4.dp)) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+    ) {
         Checkbox(
             checked = false,
             onCheckedChange = onToggle,
@@ -208,11 +196,10 @@ fun ListItem(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun ListsScreenPreview() {
-    ListsScreen()
+    ListsScreen(rememberNavController())
 }
 
 //preview list item
