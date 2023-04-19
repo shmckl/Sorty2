@@ -7,6 +7,7 @@ import com.example.sorty2.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.UnsupportedApiCallException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -27,6 +28,11 @@ class GoogleAuthUiClient(
         } catch (e: Exception) {
             e.printStackTrace()
             if (e is CancellationException) throw e
+//            if (e is UnsupportedApiCallException) {
+//                // Provide an alternative sign-in method here
+//
+//                return null
+//            }
             null
         }
         return result?.pendingIntent?.intentSender

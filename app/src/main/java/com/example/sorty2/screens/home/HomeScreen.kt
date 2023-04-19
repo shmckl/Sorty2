@@ -99,7 +99,6 @@ fun HomeActionButton(navController: NavHostController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     name = "Home Screen",
     showBackground = true
