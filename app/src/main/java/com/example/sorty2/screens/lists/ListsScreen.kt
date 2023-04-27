@@ -15,41 +15,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.sorty2.data.ListItem
 import com.example.sorty2.screens.MyTopBar
 
 @Composable
 fun ListsScreen(
     navController: NavHostController,
+    viewModel: ListsViewModel = hiltViewModel()
 ) {
-    val lists = remember {
-        mutableStateListOf(
-            "Shopping",
-            "List 2",
-            "List 3",
-            "List 3",
-            "List 3",
-        )
-    }
+    val lists by viewModel.lists
+    var showDialog by remember { mutableStateOf(false) }
+
     var selectedItem by remember { mutableStateOf(0) }
-    val itemList = remember {
-        mutableStateListOf(
-            "Item 1",
-            "Item 2",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-            "Item 3",
-        )
-    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -63,7 +43,7 @@ fun ListsScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = {}) {
+                FloatingActionButton(onClick = { /* add the logic to create a new list */ }) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
@@ -83,20 +63,50 @@ fun ListsScreen(
                         .fillMaxWidth()
                         .height(70.dp)
                 ) {
-                    items(lists.size + 1) { index ->
-                        if (index < lists.size) {
-                            ListCard(title = lists[index], onClick = { selectedItem = index })
-                        } else {
-                            CreateListButton { /* add the logic to create a new list */ }
+                    itemsIndexed(lists) { index, list ->
+                        ListCard(title = list.name, onClick = { selectedItem = index })
+                    }
+                    item {
+                        CreateListButton(onClick = { showDialog = true })
+                        if (showDialog) {
+                            NewListDialog(
+                                onDismiss = { showDialog = false },
+                                onConfirm = { newListName ->
+                                    if (newListName.isNotBlank()) {
+                                        viewModel.createList(newListName)
+                                    }
+                                    showDialog = false
+                                }
+                            )
                         }
                     }
                 }
-                ListContent(
-                    itemList = itemList,
-                    onAdd = { index, newItem -> /* add the logic to add an item at the specified index */ },
-                    onModify = { index, newItem -> /* add the logic to modify an item */ },
-                    onToggle = { index, isChecked -> /* add the logic to toggle the item */ }
-                )
+                if (lists.isNotEmpty()) {
+                    ListContent(
+                        items = lists[selectedItem].items,
+                        onAdd = { index, newItem ->
+                            viewModel.addItem(
+                                selectedItem,
+                                index,
+                                newItem
+                            )
+                        },
+                        onModify = { index, newItem ->
+                            viewModel.updateItem(
+                                selectedItem,
+                                index,
+                                newItem
+                            )
+                        },
+                        onToggle = { index, isChecked ->
+                            viewModel.toggleItem(
+                                selectedItem,
+                                index,
+                                isChecked
+                            )
+                        }
+                    )
+                }
             }
         }
     }
@@ -130,7 +140,7 @@ fun CreateListButton(onClick: () -> Unit) {
 
 @Composable
 fun ListContent(
-    itemList: List<String>,
+    items: List<ListItem>,
     onAdd: (Int, String) -> Unit,
     onModify: (Int, String) -> Unit,
     onToggle: (Int, Boolean) -> Unit
@@ -141,7 +151,7 @@ fun ListContent(
             .padding(8.dp)
     ) {
         LazyColumn {
-            itemsIndexed(itemList) { index, item ->
+            itemsIndexed(items) { index, item ->
                 ListItem(
                     item = item,
                     onEnterPressed = { newItem -> onAdd(index + 1, newItem) },
@@ -157,7 +167,7 @@ fun ListContent(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(onDone = {
                         if (newItem.isNotBlank()) {
-                            onAdd(itemList.size, newItem)
+                            onAdd(items.size, newItem)
                             newItem = ""
                         }
                     }),
@@ -171,7 +181,7 @@ fun ListContent(
 
 @Composable
 fun ListItem(
-    item: String,
+    item: ListItem,
     onEnterPressed: (String) -> Unit,
     onModify: (String) -> Unit,
     onToggle: (Boolean) -> Unit
@@ -187,7 +197,7 @@ fun ListItem(
             modifier = Modifier.padding(end = 8.dp)
         )
         TextField(
-            value = item,
+            value = item.name,
             onValueChange = onModify,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { onEnterPressed("") }),
@@ -202,9 +212,9 @@ fun ListsScreenPreview() {
     ListsScreen(rememberNavController())
 }
 
-//preview list item
-@Preview(showBackground = true)
-@Composable
-fun ListItemPreview() {
-    ListItem(item = "Item 1", onModify = {}, onToggle = {}, onEnterPressed = {})
-}
+////preview list item
+//@Preview(showBackground = true)
+//@Composable
+//fun ListItemPreview() {
+//    ListItem(item = "Item 1", onModify = {}, onToggle = {}, onEnterPressed = {})
+//}

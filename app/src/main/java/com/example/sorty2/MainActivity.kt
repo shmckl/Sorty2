@@ -35,9 +35,10 @@ import com.example.sorty2.screens.sign_in.SignInViewModel
 import com.example.sorty2.screens.tasks.TasksScreen
 import com.example.sorty2.ui.theme.Sorty2Theme
 import com.google.android.gms.auth.api.identity.Identity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val googleAuthUiClient by lazy {
