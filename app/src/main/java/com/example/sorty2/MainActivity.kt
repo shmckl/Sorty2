@@ -38,6 +38,9 @@ import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * The main activity of the app.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -48,6 +51,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    // This is the main entry point of the app.
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +69,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar = {
                         if (currentDestination?.route != Route.SignIn.routeString) {
-                            // Define the bottom navigation bar
+                            // Bottom navigation bar
                             NavigationBar {
                                 navItems.forEachIndexed { index, screen ->
                                     NavigationBarItem(
@@ -80,14 +84,9 @@ class MainActivity : ComponentActivity() {
                                         selected = navController.currentBackStackEntry?.destination?.route == screen.route.routeString,
                                         onClick = {
                                             navController.navigate(screen.route.routeString) {
-                                                // Pop up to the start destination of the graph to
-                                                // avoid building up a large stack of destinations
-                                                // on the back stack as users select items
                                                 popUpTo(navController.graph.startDestinationId) {
                                                     saveState = true
                                                 }
-                                                // Avoid multiple copies of the same destination when
-                                                // re-selecting the same item
                                                 launchSingleTop = true
                                             }
                                         }
@@ -97,7 +96,6 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { innerPadding ->
-                    // Define the NavHost
                     NavHost(
                         navController = navController,
                         startDestination = Screen.SignIn.route.routeString,
@@ -191,5 +189,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * A composable that converts drawable to ImageVerctor.
+ */
 @Composable
 fun vectorDrawable(@DrawableRes id: Int): ImageVector = ImageVector.vectorResource(id)

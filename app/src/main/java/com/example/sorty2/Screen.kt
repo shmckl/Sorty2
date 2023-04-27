@@ -1,5 +1,6 @@
 package com.example.sorty2
 
+
 sealed class Screen(val route: Route) {
     object Home : Screen(Route.Home)
     object Lists : Screen(Route.Lists)

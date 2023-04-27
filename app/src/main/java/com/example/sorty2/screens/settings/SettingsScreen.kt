@@ -17,6 +17,9 @@ import coil.compose.AsyncImage
 import com.example.sorty2.screens.MyTopBar
 import com.example.sorty2.screens.sign_in.UserData
 
+/**
+ * Screen that displays the user's profile picture and sign out button.
+ */
 @Composable
 fun Settings(
     userData: UserData?,

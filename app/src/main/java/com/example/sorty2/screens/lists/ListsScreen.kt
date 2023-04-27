@@ -21,6 +21,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sorty2.data.ListItem
 import com.example.sorty2.screens.MyTopBar
 
+/**
+ * Screen to display all the lists.
+ */
 @Composable
 fun ListsScreen(
     navController: NavHostController,

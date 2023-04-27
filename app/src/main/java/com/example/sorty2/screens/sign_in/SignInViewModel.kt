@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * ViewModel for the SignIn screen.
+ */
 class SignInViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(SignInState())

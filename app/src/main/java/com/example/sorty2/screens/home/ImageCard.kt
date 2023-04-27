@@ -16,6 +16,7 @@ import com.example.sorty2.R
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 
+// This is a custom card that is used in the home screen.
 @ExperimentalMaterial3Api
 @Composable
 fun ImageCard(

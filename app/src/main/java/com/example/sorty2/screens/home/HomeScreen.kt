@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sorty2.Screen
 import com.example.sorty2.screens.MyTopBar
 
+// This is the home screen.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(

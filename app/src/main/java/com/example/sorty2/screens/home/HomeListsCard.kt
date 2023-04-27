@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 
+// This is a custom card that is used in the home screen.
 @Composable
 fun HomeListsCard(
     title: String,

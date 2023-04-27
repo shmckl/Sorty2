@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
+// This is a custom top bar that is used in all screens.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopBar(

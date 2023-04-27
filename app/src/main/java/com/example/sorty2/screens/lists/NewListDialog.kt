@@ -11,6 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 
+/**
+ * Dialog to create a new list.
+ */
 @Composable
 fun NewListDialog(
     onDismiss: () -> Unit,

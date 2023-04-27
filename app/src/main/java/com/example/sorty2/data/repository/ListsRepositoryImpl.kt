@@ -13,6 +13,9 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+/**
+ * Repository implementation to expose lists data to the rest of the app.
+ */
 class ListsRepositoryImpl(
     private val database: FirebaseDatabase
 ) : ListsRepository {

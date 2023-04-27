@@ -17,6 +17,9 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * ViewModel for the lists screen.
+ */
 @HiltViewModel
 class ListsViewModel @Inject constructor(
     private val listsRepository: ListsRepository
@@ -55,7 +58,6 @@ class ListsViewModel @Inject constructor(
             )
         )
         viewModelScope.launch {
-            // Add your logic to save the default list in the repository
             listsRepository.addList(defaultList)
             refreshLists()
         }
@@ -117,7 +119,6 @@ class ListsViewModel @Inject constructor(
         val updatedLists = _lists.value.toMutableList().apply { this[listIndex] = updatedList }
         _lists.value = updatedLists
 
-        // Persist the updated list in the repository
         viewModelScope.launch {
             try {
                 val listId = _lists.value[listIndex].id

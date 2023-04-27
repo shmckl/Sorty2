@@ -7,5 +7,6 @@
     <string name="web_client_id" tools:ignore="TypographyDashes">616957729052-9gpft318h3kut31hksl7q4pimbv4arte.apps.googleusercontent.com</string>
     <string name="sign_in_successful">Sign in successful</string>
     <string name="signed_out">Signed out</string>
+    <string name="sign_in">Sign in</string>
 
 </resources>

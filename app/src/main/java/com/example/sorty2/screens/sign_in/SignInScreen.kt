@@ -12,8 +12,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.sorty2.R
 
+/**
+ * Screen that displays the sign in button.
+ */
 @Composable
 fun SignInScreen(
     state: SignInState,
@@ -38,7 +43,7 @@ fun SignInScreen(
         contentAlignment = Alignment.Center
     ) {
         Button(onClick = onSignInClick) {
-            Text(text = "Sign in")
+            Text(text = stringResource(R.string.sign_in))
         }
     }
 }

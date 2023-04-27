@@ -14,6 +14,10 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
+/**
+ * A wrapper around [SignInClient] that provides a simple API for signing in with Google.
+ * The code was taken from https://github.com/philipplackner/ComposeGoogleSignInCleanArchitecture/blob/master/app/src/main/java/com/plcoding/composegooglesignincleanarchitecture/presentation/sign_in/GoogleAuthUiClient.kt
+ */
 class GoogleAuthUiClient(
     private val context: Context,
     private val oneTapClient: SignInClient
