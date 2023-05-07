@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.sorty2.screens.BottomNavBar
 import com.example.sorty2.screens.MyTopBar
 import com.example.sorty2.screens.sign_in.UserData
 
@@ -36,6 +37,9 @@ fun Settings(
                     screen = "Settings",
                     navController = navController,
                 )
+            },
+            bottomBar = {
+                BottomNavBar(navController = navController)
             }
         ) { values ->
             Column(

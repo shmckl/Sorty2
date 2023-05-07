@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.sorty2.Screen
+import com.example.sorty2.screens.BottomNavBar
 import com.example.sorty2.screens.MyTopBar
 
 // This is the home screen.
@@ -40,6 +41,9 @@ fun HomeScreen(
                         HomeActionButton(navController)
                     }
                 )
+            },
+            bottomBar = {
+                BottomNavBar(navController = navController)
             }
         ) { values ->
             Column(
@@ -90,7 +94,7 @@ fun HomeScreen(
 @Composable
 fun HomeActionButton(navController: NavHostController) {
     IconButton(onClick = {
-        navController.navigate(Screen.Settings.route.routeString)
+        navController.navigate(Screen.Settings.route)
     }) {
         Icon(
             imageVector = Icons.Default.AccountCircle,

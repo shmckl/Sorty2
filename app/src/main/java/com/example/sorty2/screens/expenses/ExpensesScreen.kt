@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.sorty2.screens.BottomNavBar
 import com.example.sorty2.screens.MyTopBar
 
 @Composable
@@ -38,6 +39,9 @@ fun ExpensesScreen(
                     isNavItem = true,
                     navController = navController
                 )
+            },
+            bottomBar = {
+                BottomNavBar(navController = navController)
             }
         ) { values ->
             Column(

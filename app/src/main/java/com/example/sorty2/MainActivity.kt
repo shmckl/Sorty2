@@ -15,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -35,6 +36,7 @@ import com.example.sorty2.screens.sign_in.SignInViewModel
 import com.example.sorty2.screens.tasks.TasksScreen
 import com.example.sorty2.ui.theme.Sorty2Theme
 import com.google.android.gms.auth.api.identity.Identity
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -55,72 +57,37 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             Sorty2Theme {
                 val navController = rememberNavController()
-                val icons = listOf(
-                    vectorDrawable(R.drawable.home_icon),
-                    vectorDrawable(R.drawable.lists_icon),
-                    vectorDrawable(R.drawable.expenses_icon),
-                    vectorDrawable(R.drawable.tasks_icon),
-                )
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                Scaffold(
-                    bottomBar = {
-                        if (currentDestination?.route != Route.SignIn.routeString) {
-                            // Bottom navigation bar
-                            NavigationBar {
-                                navItems.forEachIndexed { index, screen ->
-                                    NavigationBarItem(
-//                                    icon = { Icon(screen.icon, contentDescription = screen.title) },
-                                        icon = {
-                                            Icon(
-                                                icons[index],
-                                                contentDescription = screen.route.routeString
-                                            )
-                                        },
-                                        label = { Text(screen.route.routeString) },
-                                        selected = navController.currentBackStackEntry?.destination?.route == screen.route.routeString,
-                                        onClick = {
-                                            navController.navigate(screen.route.routeString) {
-                                                popUpTo(navController.graph.startDestinationId) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                            }
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                ) { innerPadding ->
+                val coroutineScope = rememberCoroutineScope()
+                Scaffold { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.SignIn.route.routeString,
+                        startDestination = Screen.SignIn.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Route.Home.routeString) {
+                        composable(Screen.Home.route) {
                             HomeScreen(
                                 navController,
                                 onFinish = { finish() })
                         }
-                        composable(Route.Lists.routeString) {
+                        composable(Screen.Lists.route) {
                             ListsScreen(
                                 navController
                             )
                         }
-                        composable(Route.Expenses.routeString) { ExpensesScreen(navController) }
-                        composable(Route.Tasks.routeString) { TasksScreen(navController) }
+                        composable(Screen.Expenses.route) { ExpensesScreen(navController) }
+                        composable(Screen.Tasks.route) { TasksScreen(navController) }
 
-                        composable(Route.SignIn.routeString) {
+                        composable(Screen.SignIn.route) {
                             val viewModel = viewModel<SignInViewModel>()
                             val state by viewModel.state.collectAsStateWithLifecycle()
 
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate(Screen.Home.route.routeString)
+                                    navController.navigate(Screen.Home.route)
                                 }
                             }
 
@@ -146,7 +113,7 @@ class MainActivity : ComponentActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    navController.navigate(Screen.Home.route.routeString)
+                                    navController.navigate(Screen.Home.route)
                                     viewModel.resetState()
                                 }
                             }
@@ -165,7 +132,7 @@ class MainActivity : ComponentActivity() {
                                 onFinish = { finish() }
                             )
                         }
-                        composable(Route.Settings.routeString) {
+                        composable(Screen.Settings.route) {
                             Settings(
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
@@ -176,7 +143,7 @@ class MainActivity : ComponentActivity() {
                                             getString(R.string.signed_out),
                                             Toast.LENGTH_LONG
                                         ).show()
-                                        navController.navigate(Screen.SignIn.route.routeString)
+                                        navController.navigate(Screen.SignIn.route)
                                     }
                                 },
                                 navController = navController

@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.sorty2.data.ListItem
+import com.example.sorty2.screens.BottomNavBar
 import com.example.sorty2.screens.MyTopBar
 
 /**
@@ -44,6 +45,9 @@ fun ListsScreen(
                     isNavItem = true,
                     navController = navController,
                 )
+            },
+            bottomBar = {
+                BottomNavBar(navController = navController)
             },
             floatingActionButton = {
                 FloatingActionButton(onClick = { /* add the logic to create a new list */ }) {
