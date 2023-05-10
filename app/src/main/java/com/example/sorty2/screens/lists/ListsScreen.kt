@@ -57,7 +57,7 @@ fun ListsScreen(
                         tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            },
+            }
         ) { values ->
             Column(
                 modifier = Modifier

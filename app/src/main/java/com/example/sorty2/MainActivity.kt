@@ -8,10 +8,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -24,14 +24,18 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sorty2.screens.expenses.ExpensesScreen
 import com.example.sorty2.screens.home.HomeScreen
 import com.example.sorty2.screens.lists.ListsScreen
-import com.example.sorty2.screens.settings.Settings
+import com.example.sorty2.screens.login.FirebaseAuthViewModel
+import com.example.sorty2.screens.login.LoginScreen
+import com.example.sorty2.screens.settings.SettingsScreen
 import com.example.sorty2.screens.sign_in.GoogleAuthUiClient
-import com.example.sorty2.screens.sign_in.SignInScreen
 import com.example.sorty2.screens.sign_in.SignInViewModel
+import com.example.sorty2.screens.signup.SignUpScreen
 import com.example.sorty2.screens.tasks.TasksScreen
 import com.example.sorty2.ui.theme.Sorty2Theme
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,9 +51,10 @@ class MainActivity : ComponentActivity() {
             oneTapClient = Identity.getSignInClient(applicationContext)
         )
     }
+    private val authViewModel: FirebaseAuthViewModel by viewModels()
 
     // This is the main entry point of the app.
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -60,32 +65,13 @@ class MainActivity : ComponentActivity() {
                 Scaffold { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.SignIn.route,
+                        startDestination = Screen.Login.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.Home.route) {
-                            HomeScreen(
-                                navController,
-                                onFinish = { finish() })
-                        }
-                        composable(Screen.Lists.route) {
-                            ListsScreen(
-                                navController
-                            )
-                        }
-                        composable(Screen.Expenses.route) { ExpensesScreen(navController) }
-                        composable(Screen.Tasks.route) { TasksScreen(navController) }
+                        composable(Screen.Login.route) {
 
-                        composable(Screen.SignIn.route) {
                             val viewModel = viewModel<SignInViewModel>()
                             val state by viewModel.state.collectAsStateWithLifecycle()
-
-                            LaunchedEffect(key1 = Unit) {
-                                if (googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate(Screen.Home.route)
-                                }
-                            }
-
                             val launcher = rememberLauncherForActivityResult(
                                 contract = ActivityResultContracts.StartIntentSenderForResult(),
                                 onResult = { result ->
@@ -95,24 +81,17 @@ class MainActivity : ComponentActivity() {
                                                 intent = result.data ?: return@launch
                                             )
                                             viewModel.onSignInResult(signInResult)
+
+                                            // Update the FirebaseAuthViewModel with the signed-in user
+                                            signInResult.data?.let { userData ->
+                                                authViewModel.updateCurrentUser(Firebase.auth.currentUser!!)
+                                            }
                                         }
                                     }
                                 }
                             )
-
-                            LaunchedEffect(key1 = state.isSignInSuccessful) {
-                                if (state.isSignInSuccessful) {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        getString(R.string.sign_in_successful),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-                                    navController.navigate(Screen.Home.route)
-                                    viewModel.resetState()
-                                }
-                            }
-                            SignInScreen(
+                            val currentUser by authViewModel.currentUser.collectAsState()
+                            LoginScreen(navController, authViewModel,
                                 state = state,
                                 onSignInClick = {
                                     lifecycleScope.launch {
@@ -127,8 +106,24 @@ class MainActivity : ComponentActivity() {
                                 onFinish = { finish() }
                             )
                         }
+                        composable(Screen.SignUp.route) {
+                            SignUpScreen(navController, authViewModel)
+                        }
+                        composable(Screen.Home.route) {
+                            if (authViewModel.currentUser.value != null) {
+                                HomeScreen(navController, onFinish = { finish() })
+                            } else {
+                                navController.navigate(Screen.Login.route)
+                            }
+                        }
+                        composable(Screen.Lists.route) {
+                            ListsScreen(navController)
+                        }
+                        composable(Screen.Expenses.route) { ExpensesScreen(navController) }
+                        composable(Screen.Tasks.route) { TasksScreen(navController) }
+
                         composable(Screen.Settings.route) {
-                            Settings(
+                            SettingsScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
@@ -138,7 +133,13 @@ class MainActivity : ComponentActivity() {
                                             getString(R.string.signed_out),
                                             Toast.LENGTH_LONG
                                         ).show()
-                                        navController.navigate(Screen.SignIn.route)
+
+                                        // Update the FirebaseAuthViewModel with the signed-out user
+                                        authViewModel.signOut()
+
+                                        navController.navigate(Screen.Login.route) {
+                                            popUpTo(Screen.Home.route) { inclusive = true }
+                                        }
                                     }
                                 },
                                 navController = navController

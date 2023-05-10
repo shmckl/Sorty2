@@ -2,6 +2,9 @@ package com.example.sorty2.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -23,28 +26,32 @@ class FirebaseAuthViewModel @Inject constructor() : ViewModel() {
         _currentUser.value = auth.currentUser
     }
 
-    fun signIn(email: String, password: String) {
-        viewModelScope.launch {
-            try {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        _currentUser.value = auth.currentUser
-                    } else {
-                        // Handle error
-                    }
-                }
-            } catch (e: Exception) {
-                // Handle exception
+    private val _signInError = MutableStateFlow<String?>(null)
+    val signInError: StateFlow<String?> = _signInError
+
+    fun signIn(email: String, password: String): Task<AuthResult> {
+        if (email.isBlank() || password.isBlank()) {
+            _signInError.value = "Email and password cannot be empty."
+            return Tasks.forCanceled<AuthResult>()
+        }
+
+        return auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                _currentUser.value = auth.currentUser
+                _signInError.value = null
+            } else {
+                _signInError.value = task.exception?.message ?: "Unknown error"
             }
         }
     }
 
-    fun signUp(email: String, password: String) {
+    fun signUp(email: String, password: String, onSignUpSuccess: () -> Unit) {
         viewModelScope.launch {
             try {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         _currentUser.value = auth.currentUser
+                        onSignUpSuccess()
                     } else {
                         // Handle error
                     }
@@ -58,5 +65,9 @@ class FirebaseAuthViewModel @Inject constructor() : ViewModel() {
     fun signOut() {
         auth.signOut()
         _currentUser.value = null
+    }
+
+    fun updateCurrentUser(user: FirebaseUser) {
+        _currentUser.value = user
     }
 }

@@ -1,32 +1,27 @@
 package com.example.sorty2.screens.expenses
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.example.sorty2.R
+import com.example.sorty2.data.models.Bill
 import com.example.sorty2.screens.BottomNavBar
 import com.example.sorty2.screens.MyTopBar
+import com.example.sorty2.screens.home.HomeActionButton
+//import com.example.sorty2.ui.components.BillList
 
 @Composable
 fun ExpensesScreen(
-    navController: NavHostController
+    navController: NavHostController,
+//    expensesViewModel: ExpensesViewModel = hiltViewModel()
 ) {
+//    val bills: List<Bill> by expensesViewModel.bills.observeAsState(listOf())
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -44,35 +39,32 @@ fun ExpensesScreen(
                 BottomNavBar(navController = navController)
             }
         ) { values ->
-            Column(
-                Modifier
-                    .padding(values)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(
-                    text = "Expenses",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(8.dp)
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Red),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Expenses",
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                }
+            Column(modifier = Modifier.fillMaxSize()) {
+                Spacer(modifier = Modifier.height(8.dp))
+//                BalanceInfo(expensesViewModel.totalBalance)
+                Spacer(modifier = Modifier.height(16.dp))
+//                BillList(bills = bills)
             }
         }
     }
 }
 
-@Composable
-@Preview
-fun ExpensesScreenPreview() {
-    ExpensesScreen(rememberNavController())
-}
+//@Composable
+//fun BalanceInfo(balance: Float) {
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(horizontal = 16.dp),
+//        horizontalArrangement = Arrangement.SpaceBetween
+//    ) {
+//        Text(
+//            text = stringResource(R.string.balance),
+//            style = MaterialTheme.typography.displayMedium
+//        )
+//        Text(
+//            text = "%.2f".format(balance),
+//            style = MaterialTheme.typography.displayMedium,
+//            color = if (balance >= 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+//        )
+//    }
+//}

@@ -3,6 +3,7 @@ package com.example.sorty2.screens.sign_in
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
 import com.example.sorty2.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
@@ -48,6 +49,7 @@ class GoogleAuthUiClient(
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
         return try {
             val user = auth.signInWithCredential(googleCredentials).await().user
+            Log.d("GoogleAuthUiClient", "Sign-in success: ${user?.displayName}") // Add this line
             SignInResult(
                 data = user?.run {
                     UserData(
@@ -61,6 +63,7 @@ class GoogleAuthUiClient(
         } catch (e: Exception) {
             e.printStackTrace()
             if (e is CancellationException) throw e
+            Log.d("GoogleAuthUiClient", "Sign-in error: ${e.message}") // Add this line
             SignInResult(
                 data = null,
                 errorMessage = e.message

@@ -22,7 +22,7 @@ import com.example.sorty2.screens.sign_in.UserData
  * Screen that displays the user's profile picture and sign out button.
  */
 @Composable
-fun Settings(
+fun SettingsScreen(
     userData: UserData?,
     onSignOut: () -> Unit,
     navController: NavHostController
@@ -38,9 +38,6 @@ fun Settings(
                     navController = navController,
                 )
             },
-            bottomBar = {
-                BottomNavBar(navController = navController)
-            }
         ) { values ->
             Column(
                 modifier = Modifier
