@@ -1,7 +1,3 @@
-![6](https://github.com/shmckl/Sorty2/assets/11645166/943d1419-a971-4bc9-a43e-afdb73ee8105)
-![5](https://github.com/shmckl/Sorty2/assets/11645166/2d0b5e8e-7f18-4d3d-9a0e-a5c5c16972b2)
-![4](https://github.com/shmckl/Sorty2/assets/11645166/3a78a5ca-eb43-4d6e-b3b4-cbddc859c818)
-![3](https://github.com/shmckl/Sorty2/assets/11645166/1c75bf39-0421-48e4-bec5-9520b2618b54)
 # Sorty2
 Sorty2: Household Management App with Jetpack Compose
 
