@@ -19,12 +19,12 @@ Features:
 **Learning Goal:** Designed to learn Android development while fostering organization and reducing stress.
 Sorty2 is a user-friendly tool designed to enhance time management, discipline, and overall mental well-being for its users.
 
-![1](https://github.com/shmckl/Sorty2/assets/11645166/52bff2b5-6b89-4d36-a831-6364f253136a)
-![2](https://github.com/shmckl/Sorty2/assets/11645166/45f0e023-85d8-45b9-ae76-83038694ebda)
-![3](https://github.com/shmckl/Sorty2/assets/11645166/1de182cf-0c9b-445c-b9f3-9b9dfa368111)
-![4](https://github.com/shmckl/Sorty2/assets/11645166/e9ae0dbc-66bc-4b3f-a6f0-d24295160f3a)
-![5](https://github.com/shmckl/Sorty2/assets/11645166/47b11060-35dc-4026-9712-58129e9e8c75)
-![6](https://github.com/shmckl/Sorty2/assets/11645166/4b5be231-fe1c-49d4-8770-90f37d04e70a)
+![1](https://github.com/shmckl/Sorty2/assets/11645166/987a0245-254b-4825-945e-f24e1f3de716)
+![2](https://github.com/shmckl/Sorty2/assets/11645166/0185ed19-6a19-4d69-8fcb-cddc0b117c66)
+![3](https://github.com/shmckl/Sorty2/assets/11645166/d3083f45-4cab-4dc7-b4ee-dffa328f6ec2)
+![4](https://github.com/shmckl/Sorty2/assets/11645166/caddd717-521e-4410-855e-30571ebddc63)
+![5](https://github.com/shmckl/Sorty2/assets/11645166/6a83a682-5008-4f57-89ae-103b3c95510b)
+![6](https://github.com/shmckl/Sorty2/assets/11645166/c6e8bbc2-7597-4186-962b-d4fdf1036569)
 
 
 The original Sorty App was based on XML front end together with Java as the main programming language but was shortly discharged.
