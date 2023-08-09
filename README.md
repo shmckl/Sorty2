@@ -5,18 +5,19 @@ Sorty2 is a modern household management app built using Jetpack Compose, Firebas
 
 Features:
 
-**Secure Sign-in:** Users must sign in with email/password or Google account to access the app.
-**Onboarding:** Create a house, add contacts, and invite housemates.
-**Home Screen:** Access notifications, theme settings, and terms. Manage account and house details.
-**Widgets:** See upcoming tasks, housemates' balances, and shopping lists.
-**Navigation:** Navigate through Home, Lists, Expenses, and Tasks screens.
-**Lists:** Create and manage lists, reorder items, and rename/delete lists.
-**Expenses:** Track bills and transactions, split costs among housemates.
-**Balances:** Settle debts efficiently with minimum transactions.
-**Tasks:** View tasks by date and executor, including recurring tasks.
-**Figma Design:** Developed based on a comprehensive Figma project.
-**Jetpack Compose:** Embraces the power of Compose for enhanced UI.
+**Secure Sign-in:** Users must sign in with email/password or Google account to access the app.<br />
+**Onboarding:** Create a house, add contacts, and invite housemates.<br />
+**Home Screen:** Access notifications, theme settings, and terms. Manage account and house details.<br />
+**Widgets:** See upcoming tasks, housemates' balances, and shopping lists.<br />
+**Navigation:** Navigate through Home, Lists, Expenses, and Tasks screens.<br />
+**Lists:** Create and manage lists, reorder items, and rename/delete lists.<br />
+**Expenses:** Track bills and transactions, split costs among housemates.<br />
+**Balances:** Settle debts efficiently with minimum transactions.<br />
+**Tasks:** View tasks by date and executor, including recurring tasks.<br />
+**Figma Design:** Developed based on a comprehensive Figma project.<br />
+**Jetpack Compose:** Embraces the power of Compose for enhanced UI.<br />
 **Learning Goal:** Designed to learn Android development while fostering organization and reducing stress.
+
 Sorty2 is a user-friendly tool designed to enhance time management, discipline, and overall mental well-being for its users.
 
 ![1](https://github.com/shmckl/Sorty2/assets/11645166/987a0245-254b-4825-945e-f24e1f3de716)
